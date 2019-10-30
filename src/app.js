@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
+const passport = require('../config/passport')
 const port = 3000
 const hbs = exphbs.create({
   extname: 'hbs'
@@ -17,8 +18,12 @@ app.set('view engine', hbs.extname)
 // body-parser setting
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// setup session and flash message
+// setup session
 app.use(session({ secret: 'mySecret', resave: false, saveUninitialized: false }))
+// setup passport
+app.use(passport.initialize())
+app.use(passport.session())
+// setup flash message
 app.use(flash())
 
 // include req.flash in res.locals
@@ -34,4 +39,4 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`)
 })
 
-require('../routes')(app)
+require('../routes')(app, passport)
