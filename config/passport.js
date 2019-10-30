@@ -10,9 +10,11 @@ passport.use(new LocalStrategy(
   {
     usernameField: 'email',
     passwordField: 'password',
+    // remain req for req.flash
     passReqToCallback: true
   },
   // authenticate user
+  // pass req
   (req, username, password, cb) => {
     User.findOne({ where: { email: username } }).then(user => {
       if (!user) return cb(null, false, req.flash('error_messages', 'That email is not registered'))

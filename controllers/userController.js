@@ -24,13 +24,24 @@ const userController = {
             email,
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
           }).then(user => {
-            req.flash('success_messages', 'Register successfully')
+            req.flash('success_messages', 'Register successfully!')
             return res.redirect('/signin')
           })
         }
       })
     }
-
+  },
+  signInPage: (req, res) => {
+    return res.render('signin')
+  },
+  signIn: (req, res) => {
+    req.flash('success_messages', 'Login successfully!')
+    res.redirect('/restaurants')
+  },
+  logout: (req, res) => {
+    req.flash('success_messages', 'Logout successfully!')
+    req.logout()
+    res.redirect('/signin')
   }
 }
 
