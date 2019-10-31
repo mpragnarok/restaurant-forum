@@ -38,4 +38,7 @@ module.exports = (app, passport) => {
   app.get('/logout', userController.logout)
 
 
+  // admin create restaurant
+  app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
+  app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
 }
