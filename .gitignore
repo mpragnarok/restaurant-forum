@@ -12,3 +12,5 @@ package-lock.json
 *.log
 *.gz
 .env
+upload
+temp

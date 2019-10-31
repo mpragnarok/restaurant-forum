@@ -27,6 +27,15 @@ app.use(passport.session())
 // setup flash message
 app.use(flash())
 
+
+
+// method-override
+app.use(methodOverride('_method'))
+
+// upload route
+app.use('/upload', express.static(__dirname + '/../upload'))
+console.log(__dirname)
+
 // include req.flash in res.locals
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
@@ -34,11 +43,6 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   next()
 })
-
-// method-override
-app.use(methodOverride('_method'))
-
-
 app.listen(port, () => {
   db.sequelize.sync() // sync with database
   console.log(`Server is listening on port ${port}!`)
