@@ -11,6 +11,9 @@ const port = process.env.PORT || 3000
 const hbs = exphbs.create({
   extname: 'hbs'
 })
+if (process.env.NODE_ENV !== 'prodoction') {
+  require('dotenv').config()
+}
 
 // setup handlebars engine and file extension
 app.engine(hbs.extname, hbs.engine, exphbs())
