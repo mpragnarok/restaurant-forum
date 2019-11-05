@@ -1,6 +1,8 @@
 const db = require('../models'),
   Restaurant = db.Restaurant,
-  Category = db.Category
+  Category = db.Category,
+  Comment = db.Comment,
+  User = db.User
 const pageLimit = 10
 
 const restController = {
@@ -44,7 +46,11 @@ const restController = {
   },
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
-      include: Category
+      include: [
+        Category,
+        // Nested eager loading
+        { model: Comment, include: [User] }
+      ]
     }).then(restaurant => {
       return res.render('restaurant', {
         restaurant
