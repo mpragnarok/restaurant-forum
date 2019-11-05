@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const db = require('../models')
 const exphbs = require('express-handlebars')
+require('../config/handlebars-helpers')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
@@ -9,12 +10,14 @@ const passport = require('../config/passport')
 const methodOverride = require('method-override')
 const port = process.env.PORT || 3000
 const hbs = exphbs.create({
-  extname: 'hbs'
+  extname: 'hbs',
+
 })
 if (process.env.NODE_ENV !== 'prodoction') {
   require('dotenv').config()
 }
 
+// TODO: register handlebar, how!!!
 // setup handlebars engine and file extension
 app.engine(hbs.extname, hbs.engine, exphbs())
 app.set('view engine', hbs.extname)
