@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
+const categoryController = require('../controllers/categoryController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 module.exports = (app, passport) => {
@@ -51,4 +52,8 @@ module.exports = (app, passport) => {
   // admin read and update users permission
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUser)
+
+  // admin restaurants category CRUD
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+
 }

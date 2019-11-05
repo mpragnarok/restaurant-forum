@@ -11,7 +11,6 @@ const adminController = {
   getRestaurants: (req, res) => {
     return Restaurant.findAll({ include: [Category] }).then(restaurants => {
       res.render('admin/restaurants', { restaurants })
-
     })
   },
 
