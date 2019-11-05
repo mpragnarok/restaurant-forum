@@ -3,7 +3,15 @@ const Category = db.Category
 let categoryController = {
   getCategories: (req, res) => {
     return Category.findAll().then(categories => {
-      return res.render('admin/categories', { categories })
+      if (req.params.id) {
+        Category.findByPk(req.params.id)
+          .then(category => {
+            return res.render('admin/categories', { categories, category })
+          })
+      } else {
+        return res.render('admin/categories', { categories })
+      }
+
     })
   },
   postCategory: (req, res) => {
@@ -16,6 +24,20 @@ let categoryController = {
         })
         .then(category => {
           res.redirect('/admin/categories')
+        })
+    }
+  },
+  putCategory: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    } else {
+      return Category.findByPk(req.params.id)
+        .then(category => {
+          category.update(req.body)
+            .then(category => {
+              res.redirect('/admin/categories')
+            })
         })
     }
   }
