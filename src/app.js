@@ -50,7 +50,7 @@ app.use((req, res, next) => {
   next()
 })
 app.listen(port, () => {
-  db.sequelize.sync() // sync with database
+
   console.log(`Server is listening on port ${port}!`)
 })
 
