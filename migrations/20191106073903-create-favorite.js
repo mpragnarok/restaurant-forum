@@ -11,6 +11,9 @@ module.exports = {
       UserId: {
         type: Sequelize.INTEGER
       },
+      RestaurantId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
