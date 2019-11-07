@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'prodoction') {
   require('dotenv').config()
 }
 
-// TODO: register handlebar, how!!!
+
 // setup handlebars engine and file extension
 app.engine(hbs.extname, hbs.engine, exphbs())
 app.set('view engine', hbs.extname)

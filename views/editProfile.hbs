@@ -1,22 +1,42 @@
 <div class="container">
   <div class="row my-2">
     <div class="col-lg-8 order-lg-2">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
-        </li>
-      </ul>
+      <div class="tab-content py-4">
+        <div class="tab-pane active" id="profile">
+          <h5 class="mb-3">User Profile</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <form action="/users/{{user.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                  <div class="col-lg-9">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email"
+                      value="{{user.email}}">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Name</label>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"
+                      value="{{user.name}}">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label" for="image">Image</label>
+                  <div class="col-lg-9">
+                    <input type="file" class="form-control-file" id="image" name="image">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+          <!--/row-->
+        </div>
+      </div>
     </div>
     <div class="col-lg-4 order-lg-1 text-center">
-      <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
-      <h6 class="mt-2">Upload a different photo</h6>
-      <label class="custom-file">
-        <input type="file" id="file" class="custom-file-input">
-        <span class="custom-file-control">Choose file</span>
-      </label>
+      <img src="{{user.image}}" class="mx-auto img-fluid img-circle d-block" alt="avatar">
     </div>
   </div>
 </div>

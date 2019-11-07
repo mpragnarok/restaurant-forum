@@ -22,7 +22,7 @@ const restController = {
       let page = Number(req.query.page) || 1
       let pages = Math.ceil(result.count / pageLimit)
       let totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
-      console.log(totalPage)
+
       let prev = page - 1 < 1 ? 1 : page - 1
       let next = page + 1 > pages ? pages : page + 1
       // clean up restaurant data
