@@ -67,6 +67,15 @@ const userController = {
             return res.redirect('back')
           })
       })
+  },
+  getUser: (req, res) => {
+    return res.render('profile')
+  },
+  editUser: (req, res) => {
+    return res.render('Editprofile')
+  },
+  putUser: (req, res) => {
+    return res.render('Editprofile')
   }
 }
 
