@@ -54,6 +54,9 @@ const restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
+      restaurant.update({
+        viewCount: restaurant.viewCount ? restaurant.viewCount + 1 : 1
+      })
       const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
       return res.render('restaurant', {
         restaurant,
@@ -96,9 +99,7 @@ const restController = {
             restaurant,
             commentCount: comments.count
           })
-
         })
-
     })
 
   }
