@@ -2,7 +2,8 @@ const db = require('../models'),
   Restaurant = db.Restaurant,
   Category = db.Category,
   Comment = db.Comment,
-  User = db.User
+  User = db.User,
+  Like = db.Like
 const pageLimit = 10
 
 const restController = {
@@ -92,7 +93,7 @@ const restController = {
         'RestaurantId': req.params.id
       }
     }).then(comments => {
-      console.log()
+
       Restaurant.findByPk(req.params.id, { include: [Category] })
         .then(restaurant => {
           return res.render('dashboard', {
@@ -101,7 +102,29 @@ const restController = {
           })
         })
     })
-
+  },
+  addLike: (req, res) => {
+    return Like.create({
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      })
+      .then((restaurant) => {
+        return res.redirect('back')
+      })
+  },
+  removeLike: (req, res) => {
+    return Like.findOne({
+        where: {
+          UserId: req.user.id,
+          RestaurantId: req.params.restaurantId
+        }
+      })
+      .then((like) => {
+        like.destroy()
+          .then((restaurant) => {
+            return res.redirect('back')
+          })
+      })
   }
 }
 module.exports = restController

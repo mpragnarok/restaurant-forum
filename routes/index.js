@@ -67,7 +67,7 @@ module.exports = (app, passport) => {
   app.post('/comments', authenticated, commentController.postComment)
   app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
-  // TODO:user profile CRU
+  // user profile CRU
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
@@ -75,6 +75,10 @@ module.exports = (app, passport) => {
 
 
   // favorite POST and Delete
+  app.post('/like/:restaurantId', authenticated, restController.addLike)
+  app.delete('/like/:restaurantId', authenticated, restController.removeLike)
+
+  // Like POST and Delete
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 
