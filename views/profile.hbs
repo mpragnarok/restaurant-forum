@@ -35,3 +35,16 @@
     </div>
   </div>
 </div>
+<div class="container">
+  <h5 class="mb-3">{{restaurantAmount}} Commented Restaurants</h5>
+  <div class="row">
+    {{#each restaurants}}
+    <div class="col-12 col-sm-6 col-md-4 image-grid-item">
+      <div style="background-image: url({{this.image}});" class="image-grid-cover">
+        <a href="#" class="image-grid-clickbox"></a>
+        <a href="/restaurants/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>

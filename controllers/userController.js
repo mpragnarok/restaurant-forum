@@ -1,9 +1,13 @@
 const bcrypt = require('bcrypt-nodejs')
 const imgur = require('imgur-node-api')
+const Sequelize = require('sequelize')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const User = db.User
-const Favorite = db.Favorite
+const Comment = db.Comment,
+  Favorite = db.Favorite,
+  Restaurant = db.Restaurant
+const Op = Sequelize.Op
 
 const userController = {
   signUpPage: (req, res) => {
@@ -71,9 +75,21 @@ const userController = {
       })
   },
   getUser: (req, res) => {
-    return User.findByPk(req.params.id)
+    return User.findByPk(req.params.id, { include: [Comment] })
       .then(user => {
-        return res.render('profile', { user })
+        const RestaurantId = user.dataValues.Comments.map(item => item.RestaurantId)
+        Restaurant.findAll({
+          where: {
+            id: {
+              [Op.in]: RestaurantId
+            }
+          }
+
+        }).then(restaurants => {
+          return res.render('profile', { user, restaurants, restaurantAmount: RestaurantId.length })
+
+        })
+
       })
   },
   editUser: (req, res) => {
@@ -84,8 +100,6 @@ const userController = {
   },
   putUser: (req, res) => {
 
-
-    // TODO: WHY can't get req.body.name??
     if (!req.body.name) {
       req.flash('error_messages', "Name didn't exist")
       return res.redirect('back')

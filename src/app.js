@@ -40,7 +40,8 @@ app.use(methodOverride('_method'))
 
 // upload route
 app.use('/upload', express.static(__dirname + '/../upload'))
-console.log(__dirname)
+// static files
+app.use(express.static("public"))
 
 // include req.flash in res.locals
 app.use((req, res, next) => {
