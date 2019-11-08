@@ -79,4 +79,6 @@ module.exports = (app, passport) => {
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 
 
+  // show dashboard
+  app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 }
