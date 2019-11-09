@@ -6,7 +6,8 @@ const db = require('../models')
 const User = db.User,
   Comment = db.Comment,
   Favorite = db.Favorite,
-  Restaurant = db.Restaurant
+  Restaurant = db.Restaurant,
+  Followship = db.Followship
 const Op = Sequelize.Op
 
 const userController = {
@@ -158,6 +159,29 @@ const userController = {
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
       return res.render('topUser', { users })
     })
+  },
+  addFollowing: (req, res) => {
+    return Followship.create({
+        followerId: req.user.id,
+        followingId: req.params.userId
+      })
+      .then(followship => {
+        return res.redirect('back')
+      })
+  },
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+        where: {
+          followerId: req.user.id,
+          followingId: req.params.userId
+        }
+      })
+      .then(followship => {
+        followship.destroy()
+          .then(followship => {
+            return res.redirect('back')
+          })
+      })
   }
 
 }

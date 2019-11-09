@@ -85,6 +85,10 @@ module.exports = (app, passport) => {
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 
+  // Follow POST and DELETE
+  app.post('/following/:userId', authenticated, userController.addFollowing)
+  app.delete('/following/:userId', authenticated, userController.removeFollowing)
+
 
   // show dashboard
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
