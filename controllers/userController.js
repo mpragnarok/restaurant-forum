@@ -3,8 +3,8 @@ const imgur = require('imgur-node-api')
 const Sequelize = require('sequelize')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
-const User = db.User
-const Comment = db.Comment,
+const User = db.User,
+  Comment = db.Comment,
   Favorite = db.Favorite,
   Restaurant = db.Restaurant
 const Op = Sequelize.Op
@@ -138,8 +138,28 @@ const userController = {
           })
       })
     }
-
+  },
+  getTopUser: (req, res) => {
+    // get all user and follower's data
+    return User.findAll({
+      include: [
+        { model: User, as: 'Followers' }
+      ]
+    }).then(users => {
+      // map users data
+      users = users.map(user => ({
+        ...user.dataValues,
+        // count follower numbers
+        FollowerCount: user.Followers.length,
+        // check user is followed or not
+        isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
+      }))
+      // sort by followerCount
+      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+      return res.render('topUser', { users })
+    })
   }
+
 }
 
 module.exports = userController

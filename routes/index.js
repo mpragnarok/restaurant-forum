@@ -67,6 +67,9 @@ module.exports = (app, passport) => {
   app.post('/comments', authenticated, commentController.postComment)
   app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
+
+  // show top user
+  app.get('/users/top', authenticated, userController.getTopUser)
   // user profile CRU
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
@@ -85,4 +88,7 @@ module.exports = (app, passport) => {
 
   // show dashboard
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
+
+
+
 }
