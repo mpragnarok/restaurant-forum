@@ -24,6 +24,8 @@ module.exports = (app, passport) => {
   // if user meet homepage, redirect to /restaurant page
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
 
+  // show top restaurants
+  app.get('/restaurants/top', authenticated, restController.getTop10Restaurants)
   // user READ restaurants
   app.get('/restaurants', authenticated, restController.getRestaurants)
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
