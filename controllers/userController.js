@@ -84,7 +84,7 @@ const userController = {
         ]
       })
       .then(user => {
-        const commentRestaurantId = user.dataValues.Comments.map(item => item.RestaurantId)
+        const commentRestaurantId = [...new Set(user.dataValues.Comments.map(item => item.RestaurantId))]
         Restaurant.findAll({
           where: {
             id: {
