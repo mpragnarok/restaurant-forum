@@ -9,13 +9,36 @@
               <h6>Email</h6>
               <p>
                 {{user.email}}
+                <div class="d-flex">
+                  <button type="button" class="btn btn-info mr-1 ">
+                    Commented restaurants <span class="badge badge-light">{{restaurantAmount}}</span>
+                  </button>
+                  <button type="button" class="btn btn-danger mr-1">
+                    Favorited restaurants <span class="badge badge-light">{{favoritedAmount}}</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary mr-1">
+                    Followings <span class="badge badge-light">{{followingAmount}}</span>
+                  </button>
+                  <button type="button" class="btn btn-success mr-1">
+                    Followers <span class="badge badge-light">{{followerAmount}}</span>
+                  </button>
+                </div>
               </p>
-              <a class="btn btn-primary" role="button" href="/users/{{user.id}}/edit">
-                Edit
+              {{#ifNotCond operateUserId user.id}}
+              {{#if isFollowed }}
+              <form action="/following/{{user.id}}?_method=DELETE" method="POST" style="display: contents;"><button
+                  type="submit" class="btn btn-danger">取消追蹤</button></form>
+              {{else}}
+              <form action="/following/{{user.id}}" method="POST" style="display: contents;"><button type="submit"
+                  class="btn btn-primary">追蹤</button></form>
+              {{/if}}
+              {{/ifNotCond}}
+              {{#ifCond operateUserId user.id}}
+              <a href="{{user.id}}/edit" class="btn btn-primary mr-2">edit</a>
+              {{/ifCond}}
               </a>
             </div>
           </div>
-          <!--/row-->
         </div>
         <div class="tab-pane" id="edit">
           <form role="form">
@@ -35,16 +58,67 @@
     </div>
   </div>
 </div>
-<div class="container">
-  <h5 class="mb-3">{{restaurantAmount}} Commented Restaurants</h5>
-  <div class="row">
-    {{#each restaurants}}
-    <div class="col-12 col-sm-6 col-md-4 image-grid-item">
-      <div style="background-image: url({{this.image}});" class="image-grid-cover">
-        <a href="#" class="image-grid-clickbox"></a>
-        <a href="/restaurants/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
-      </div>
+<div class="row mb-3">
+  <div id="followings" class="card col-md-5  mr-2">
+    <div class="card-header">
+      <h5>{{followingAmount}} Followings</h5>
     </div>
-    {{/each}}
+    <div class="row  card-body">
+      {{#each user.Followings}}
+      <div class="col-md-4 image-grid-item">
+        <div style="background-image: url({{this.image}});" class="image-grid-cover">
+          <a href="/users/{{this.id}}" class="image-grid-clickbox"></a>
+          <a href="/users/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="card col-md-6 " id="favorites">
+    <div class="card-header">
+      <h5>{{favoritedAmount}} Favorited Restaurants</h5>
+    </div>
+    <div class="row  card-body">
+      {{#each favoritedRestaurants}}
+      <div class="col-md-4 image-grid-item">
+        <div style="background-image: url({{this.image}});" class="image-grid-cover">
+          <a href="/restaurants/{{this.id}}" class="image-grid-clickbox"></a>
+          <a href="/restaurants/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="card col-md-5  mr-2" id="followers">
+    <div class="card-header">
+      <h5>{{followerAmount}} Followers</h5>
+    </div>
+    <div class="row  card-body">
+      {{#each user.Followers}}
+      <div class="col-md-4 image-grid-item">
+        <div style="background-image: url({{this.image}});" class="image-grid-cover">
+          <a href="/users/{{this.id}}" class="image-grid-clickbox"></a>
+          <a href="/users/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="card col-md-6" id="comments">
+    <div class="card-header">
+      <h5>{{restaurantAmount}} Commented Restaurants</h5>
+    </div>
+    <div class="row card-body">
+      {{#each commentedRestaurants}}
+      <div class="col-12 col-sm-6 col-md-4 image-grid-item ">
+        <div style="background-image: url({{this.image}});" class="image-grid-cover">
+          <a href="/restaurants/{{this.id}}" class="image-grid-clickbox"></a>
+          <a href="/restaurants/{{this.id}}" class="cover-wrapper">{{this.name}}</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
   </div>
 </div>

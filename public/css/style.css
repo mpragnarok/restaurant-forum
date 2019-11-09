@@ -1,7 +1,7 @@
 .image-grid-cover {
   width: 100%;
   background-size: cover;
-  min-height: 180px;
+  min-height: 100px;
   position: relative;
   margin-bottom: 30px;
   text-shadow: rgba(0, 0, 0, .8) 0 1px 0;
@@ -22,7 +22,7 @@
 }
 
 .cover-wrapper {
-  font-size: 18px;
+  font-size: 10px;
   text-align: center;
   display: block;
   color: #fff;
@@ -38,4 +38,8 @@ a:hover {
   text-decoration: none;
   outline: 0;
 
+}
+
+.card {
+  padding: 0px;
 }

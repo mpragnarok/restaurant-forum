@@ -7,6 +7,13 @@ hbs.registerHelper('ifCond', function(a, b, options) {
   }
   return options.inverse(this)
 })
+
+hbs.registerHelper('ifNotCond', function(a, b, options) {
+  if (a !== b) {
+    return options.fn(this)
+  }
+  return options.inverse(this)
+})
 hbs.registerHelper('moment', function(a) {
   return moment(a).fromNow()
 })

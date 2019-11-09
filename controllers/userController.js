@@ -76,18 +76,35 @@ const userController = {
       })
   },
   getUser: (req, res) => {
-    return User.findByPk(req.params.id, { include: [Comment] })
+    return User.findByPk(req.params.id, {
+        include: [
+          Comment,
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ]
+      })
       .then(user => {
-        const RestaurantId = user.dataValues.Comments.map(item => item.RestaurantId)
+        const commentRestaurantId = user.dataValues.Comments.map(item => item.RestaurantId)
         Restaurant.findAll({
           where: {
             id: {
-              [Op.in]: RestaurantId
+              [Op.in]: commentRestaurantId
             }
           }
 
-        }).then(restaurants => {
-          return res.render('profile', { user, restaurants, restaurantAmount: RestaurantId.length })
+        }).then(commentedRestaurants => {
+
+          return res.render('profile', {
+            user,
+            commentedRestaurants,
+            restaurantAmount: commentRestaurantId.length,
+            favoritedRestaurants: req.user.FavoritedRestaurants,
+            favoritedAmount: req.user.FavoritedRestaurants.map(item => item.RestaurantId).length,
+            followingAmount: req.user.Followings.map(i => i.FollowingId).length,
+            followerAmount: req.user.Followers.map(i => i.FollwerId).length,
+            isFollowed: req.user.Followings.map(d => d.id).includes(user.id),
+            operateUserId: req.user.id
+          })
 
         })
 
@@ -157,7 +174,10 @@ const userController = {
       }))
       // sort by followerCount
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
-      return res.render('topUser', { users })
+      return res.render('topUser', {
+        users,
+        operateUserId: req.user.id
+      })
     })
   },
   addFollowing: (req, res) => {
