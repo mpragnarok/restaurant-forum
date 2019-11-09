@@ -145,7 +145,7 @@ const restController = {
         // count follower numbers
         FavoriteCount: restaurant.FavoritedUsers.length,
         // check user is followed or not
-        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(req.user.id)
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(restaurant.id)
       }))
       // sort by followerCount and splice top 10
       restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount).splice(0, 10)
