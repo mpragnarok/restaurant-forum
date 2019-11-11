@@ -24,6 +24,7 @@ app.set('view engine', hbs.extname)
 
 // body-parser setting
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 // setup session
 app.use(session({ secret: 'mySecret', resave: false, saveUninitialized: false }))
