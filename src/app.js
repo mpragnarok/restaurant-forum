@@ -55,4 +55,4 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`)
 })
 
-require('../routes')(app, passport)
+require('../routes')(app)

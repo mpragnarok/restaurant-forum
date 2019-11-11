@@ -84,6 +84,7 @@ const userController = {
         ]
       })
       .then(user => {
+        // Remove duplicated restaurantId from  commentRestaurantId array
         const commentRestaurantId = [...new Set(user.dataValues.Comments.map(item => item.RestaurantId))]
         Restaurant.findAll({
           where: {
