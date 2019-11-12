@@ -17,19 +17,6 @@ const adminService = {
       callback({ restaurant })
     })
   },
-  getCategories: (req, res, callback) => {
-
-    return Category.findAll()
-      .then(categories => {
-        if (req.params.id) {
-          Category.findByPk(req.params.id).then(category => {
-            callback({ categories, category })
-          })
-        } else {
-          callback({ categories })
-        }
-      })
-  },
   deleteRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id)
       .then(restaurant => {
@@ -117,6 +104,31 @@ const adminService = {
             callback({ status: 'success', message: 'Restaurant was successfully to update' })
           })
       })
+    }
+  },
+  getCategories: (req, res, callback) => {
+
+    return Category.findAll()
+      .then(categories => {
+        if (req.params.id) {
+          Category.findByPk(req.params.id).then(category => {
+            callback({ categories, category })
+          })
+        } else {
+          callback({ categories })
+        }
+      })
+  },
+  postCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      callback({ status: 'error', message: 'Name didn\'t exist' })
+    } else {
+      return Category.create({
+          name: req.body.name
+        })
+        .then(category => {
+          callback({ status: 'success', message: 'Add category successfully' })
+        })
     }
   }
 }

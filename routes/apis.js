@@ -17,5 +17,6 @@ router.post('/admin/restaurants', upload.single('image'), adminController.postRe
 
 // categories
 router.get('/admin/categories', categoryController.getCategories)
+router.post('/admin/categories', categoryController.postCategory)
 
 module.exports = router
