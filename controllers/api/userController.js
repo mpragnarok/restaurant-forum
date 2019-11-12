@@ -24,7 +24,7 @@ let userController = {
 
       // sign token
       let payload = { id: user.id }
-      var token = jwt.sign(payload, process.env.JWT_SECRET)
+      var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' })
       return res.json({
         status: 'success',
         message: 'ok',
@@ -37,6 +37,26 @@ let userController = {
         }
       })
     })
+  },
+  signUp: (req, res) => {
+    const { passwordCheck, password, email, name } = req.body
+    if (password !== passwordCheck) {
+      return res.json({ status: 'error', message: 'Passwords are not the same' })
+    } else {
+      User.findOne({ where: { email } }).then(user => {
+        if (user) {
+          return res.json({ status: 'error', message: 'This Email is already registered' })
+        } else {
+          User.create({
+            name,
+            email,
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
+          }).then(user => {
+            return res.json({ status: 'success', message: 'Register successfully!' })
+          })
+        }
+      })
+    }
   }
 }
 
