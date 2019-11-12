@@ -18,9 +18,16 @@ const adminService = {
     })
   },
   getCategories: (req, res, callback) => {
+
     return Category.findAll()
       .then(categories => {
-        callback({ categories })
+        if (req.params.id) {
+          Category.findByPk(req.params.id).then(category => {
+            callback({ categories, category })
+          })
+        } else {
+          callback({ categories })
+        }
       })
   },
   deleteRestaurant: (req, res, callback) => {
