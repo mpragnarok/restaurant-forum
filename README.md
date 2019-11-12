@@ -7,7 +7,7 @@ This is a Restaurant Forum with Sequelize demo which built up from [Alphacamp](h
 ## Feature
 1. Admin and user different route.
 2. CRUD restaurants.
-3. Show all users data and update role.
+3. Refactor Backend code to create API server
 
 ## Installing
 
@@ -50,6 +50,7 @@ Create `.env` in the root folder
 ```js
 // .env
 IMGUR_CLIENT_ID=<Your CLIENT ID>
+JWT_SECRET=<YOUR JWT SECRET>
 ```
 
 ### 4. Command line
@@ -136,4 +137,4 @@ Head to [http://localhost:3000](http://localhost:3000) to experience the demo.
 1. [Mina Huang]( https://github.com/mpragnarok )
 
 
-   
+
