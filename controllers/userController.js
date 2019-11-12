@@ -112,10 +112,16 @@ const userController = {
       })
   },
   editUser: (req, res) => {
-    return User.findByPk(req.params.id)
-      .then(user => {
-        return res.render('editProfile', { user })
-      })
+    if (req.params.id === req.user.id) {
+      return User.findByPk(req.params.id)
+        .then(user => {
+          return res.render('editProfile', { user })
+        })
+    } else {
+      return res.redirect('back')
+    }
+
+
   },
   putUser: (req, res) => {
 
