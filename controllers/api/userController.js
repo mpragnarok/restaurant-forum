@@ -21,6 +21,7 @@ let userController = {
       if (!bcrypt.compareSync(password, user.password)) {
         return res.status(401).json({ status: 'error', message: 'passwords did not match' })
       }
+
       // sign token
       let payload = { id: user.id }
       var token = jwt.sign(payload, process.env.JWT_SECRET)
