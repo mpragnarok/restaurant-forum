@@ -9,16 +9,15 @@ const restService = require('../../services/restService')
 const pageLimit = 10
 
 const restController = {
+  getRestaurants: (req, res) => {
+    restService.getRestaurants(req, res, (data) => res.json(data))
+  },
 
   getTop10Restaurants: (req, res) => {
-    restService.getTop10Restaurants(req, res, (data) => {
-      return res.json(data)
-    })
+    restService.getTop10Restaurants(req, res, (data) => res.json(data))
   },
   getFeeds: (req, res) => {
-    restService.getFeeds(req, res, (data) => {
-      return res.json(data)
-    })
+    restService.getFeeds(req, res, (data) => res.json(data))
   }
 }
 module.exports = restController
