@@ -49,6 +49,28 @@ const restService = {
 
     })
   },
+  getRestaurant: (req, res, callback) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikedUsers' },
+        // Nested eager loading
+        { model: Comment, include: [User] }
+      ]
+    }).then(restaurant => {
+      restaurant.update({
+        viewCount: restaurant.viewCount ? restaurant.viewCount + 1 : 1
+      })
+      const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+      const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
+      callback({
+        restaurant,
+        isFavorited,
+        isLiked
+      })
+    })
+  },
 
   getTop10Restaurants: (req, res, callback) => {
     // get all user and follower's data

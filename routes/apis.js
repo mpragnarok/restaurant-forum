@@ -22,11 +22,12 @@ const authenticatedAdmin = (req, res, next) => {
 router.get('/restaurants/top', authenticated, authenticatedAdmin, restController.getTop10Restaurants)
 // restaurants
 router.get('/restaurants', authenticated, authenticatedAdmin, restController.getRestaurants)
-router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
-router.get('/restaurants/feeds', authenticated, restController.getFeeds)
-router.get('/admin/restaurants/:id', adminController.getRestaurant)
+router.get('/restaurants/feeds', authenticated, authenticatedAdmin, restController.getFeeds)
+router.get('/restaurants/:id', authenticated, authenticatedAdmin, restController.getRestaurant)
 
 // admin
+router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
+router.get('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
 router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
