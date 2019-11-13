@@ -3,7 +3,8 @@ const express = require('express'),
 const adminController = require('../controllers/api/adminController.js'),
   categoryController = require('../controllers/api/categoryController.js'),
   userController = require('../controllers/api/userController'),
-  restController = require('../controllers/api/restController')
+  restController = require('../controllers/api/restController'),
+  commentController = require('../controllers/api/commentController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const passport = require('../config/passport')
@@ -45,6 +46,12 @@ router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, catego
 // user
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
+
+
+//comments CRUD
+router.post('/comments', authenticated, authenticatedAdmin, commentController.postComment)
+router.delete('/comments/:id', authenticated, authenticatedAdmin, commentController.deleteComment)
+
 
 // favorite POST and Delete
 router.post('/like/:restaurantId', authenticated, authenticatedAdmin, restController.addLike)

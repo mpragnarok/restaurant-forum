@@ -1,12 +1,5 @@
-const db = require('../models'),
-  Restaurant = db.Restaurant,
-  Category = db.Category,
-  Comment = db.Comment,
-  User = db.User,
-  Like = db.Like,
-  Favorite = db.Favorite
 const restService = require('../services/restService')
-const pageLimit = 10
+
 
 const restController = {
   getRestaurants: (req, res) => {
