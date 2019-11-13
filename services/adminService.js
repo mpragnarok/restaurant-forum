@@ -3,6 +3,7 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Restaurant = db.Restaurant
 const Category = db.Category
+const Comment = db.Comment
 
 
 const adminService = {
@@ -18,13 +19,13 @@ const adminService = {
     })
   },
   deleteRestaurant: (req, res, callback) => {
-    return Restaurant.findByPk(req.params.id)
+    Restaurant.findByPk(req.params.id)
       .then(restaurant => {
         restaurant.destroy()
-          .then(restaurant => {
-            callback({ status: 'success', message: '' })
-          })
+        Comment.destroy({ where: { RestaurantId: req.params.id } })
+        callback({ status: 'success', message: '' })
       })
+
   },
   postRestaurant: (req, res, callback) => {
     const { name, tel, address, opening_hours, description, categoryId } = req.body
@@ -36,14 +37,14 @@ const adminService = {
       imgur.setClientID(IMGUR_CLIENT_ID)
       imgur.upload(file.path, (err, img) => {
         return Restaurant.create({
-            name,
-            tel,
-            address,
-            opening_hours,
-            description,
-            image: file ? img.data.link : null,
-            CategoryId: categoryId
-          })
+          name,
+          tel,
+          address,
+          opening_hours,
+          description,
+          image: file ? img.data.link : null,
+          CategoryId: categoryId
+        })
           .then(restaurant => {
             callback({ status: 'success', message: 'Restaurant was successfully created' })
           })
@@ -51,14 +52,14 @@ const adminService = {
 
     } else {
       return Restaurant.create({
-          name,
-          tel,
-          address,
-          opening_hours,
-          description,
-          image: null,
-          CategoryId: categoryId
-        })
+        name,
+        tel,
+        address,
+        opening_hours,
+        description,
+        image: null,
+        CategoryId: categoryId
+      })
         .then(restaurant => {
           callback({ status: 'success', message: 'Restaurant was successfully created' })
         })
@@ -75,14 +76,14 @@ const adminService = {
       imgur.upload(file.path, (err, img) => {
         return Restaurant.findByPk(req.params.id).then(restaurant => {
           restaurant.update({
-              name,
-              tel,
-              address,
-              opening_hours,
-              description,
-              image: file ? img.data.link : restaurant.image,
-              CategoryId: categoryId
-            })
+            name,
+            tel,
+            address,
+            opening_hours,
+            description,
+            image: file ? img.data.link : restaurant.image,
+            CategoryId: categoryId
+          })
             .then(restaurant => {
               callback({ status: 'success', message: 'Restaurant was successfully to update' })
             })
@@ -92,14 +93,14 @@ const adminService = {
     } else {
       return Restaurant.findByPk(req.params.id).then(restaurant => {
         restaurant.update({
-            name,
-            tel,
-            address,
-            opening_hours,
-            description,
-            image: restaurant.image,
-            CategoryId: categoryId
-          })
+          name,
+          tel,
+          address,
+          opening_hours,
+          description,
+          image: restaurant.image,
+          CategoryId: categoryId
+        })
           .then(restaurant => {
             callback({ status: 'success', message: 'Restaurant was successfully to update' })
           })
@@ -124,8 +125,8 @@ const adminService = {
       callback({ status: 'error', message: 'Name didn\'t exist' })
     } else {
       return Category.create({
-          name: req.body.name
-        })
+        name: req.body.name
+      })
         .then(category => {
           callback({ status: 'success', message: 'Add category successfully' })
         })

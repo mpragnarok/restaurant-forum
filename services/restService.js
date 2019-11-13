@@ -31,5 +31,24 @@ const restService = {
       callback({ restaurants })
     })
   },
+  getFeeds: (req, res, callback) => {
+    return Restaurant.findAll({
+      limit: 10,
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      include: [Category]
+    }).then(restaurants => {
+      Comment.findAll({
+        limit: 10,
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        include: [User, Restaurant]
+      }).then(comments => {
+        callback({ restaurants, comments })
+      })
+    })
+  }
 }
 module.exports = restService
