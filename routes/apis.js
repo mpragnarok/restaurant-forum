@@ -46,6 +46,8 @@ router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, catego
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
 
-
+// favorite POST and Delete
+router.post('/like/:restaurantId', authenticated, authenticatedAdmin, restController.addLike)
+router.delete('/like/:restaurantId', authenticated, authenticatedAdmin, restController.removeLike)
 
 module.exports = router

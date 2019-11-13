@@ -23,6 +23,12 @@ const restController = {
   },
   getDashboard: (req, res) => {
     restService.getDashboard(req, res, (data) => res.json(data))
+  },
+  addLike: (req, res) => {
+    restService.addLike(req, res, (data) => res.json(data))
+  },
+  removeLike: (req, res) => {
+    restService.removeLike(req, res, (data) => res.json(data))
   }
 }
 module.exports = restController

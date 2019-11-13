@@ -24,27 +24,10 @@ const restController = {
     restService.getDashboard(req, res, (data) => res.render('dashboard', data))
   },
   addLike: (req, res) => {
-    return Like.create({
-      UserId: req.user.id,
-      RestaurantId: req.params.restaurantId
-    })
-      .then((restaurant) => {
-        return res.redirect('back')
-      })
+    restService.addLike(req, res, (data) => res.redirect('back'))
   },
   removeLike: (req, res) => {
-    return Like.findOne({
-      where: {
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      }
-    })
-      .then((like) => {
-        like.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
-      })
+    restService.removeLike(req, res, (data) => res.redirect('back'))
   },
   getTop10Restaurants: (req, res) => {
     restService.getTop10Restaurants(req, res, (data) => {

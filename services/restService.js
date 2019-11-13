@@ -126,6 +126,22 @@ const restService = {
           })
         })
     })
+  },
+  addLike: (req, res, callback) => {
+    return Like.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(() => callback({ status: 'success', message: '' }))
+  },
+  removeLike: (req, res, callback) => {
+    return Like.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
+      .then((like) => like.destroy())
+      .then(() => callback({ status: 'success', message: '' }))
   }
 }
 module.exports = restService
