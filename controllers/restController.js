@@ -5,6 +5,7 @@ const db = require('../models'),
   User = db.User,
   Like = db.Like,
   Favorite = db.Favorite
+const restService = require('../services/restService')
 const pageLimit = 10
 
 const restController = {
@@ -110,20 +111,20 @@ const restController = {
   },
   addLike: (req, res) => {
     return Like.create({
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      })
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    })
       .then((restaurant) => {
         return res.redirect('back')
       })
   },
   removeLike: (req, res) => {
     return Like.findOne({
-        where: {
-          UserId: req.user.id,
-          RestaurantId: req.params.restaurantId
-        }
-      })
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
       .then((like) => {
         like.destroy()
           .then((restaurant) => {
@@ -132,25 +133,9 @@ const restController = {
       })
   },
   getTop10Restaurants: (req, res) => {
-    // get all user and follower's data
-    return Restaurant.findAll({
-      include: [
-        { model: User, as: 'FavoritedUsers' }
-      ]
-    }).then(restaurants => {
-      // map restaurants data
-      restaurants = restaurants.map(restaurant => ({
-        ...restaurant.dataValues,
-        description: restaurant.dataValues.description.substring(0, 50),
-        // count follower numbers
-        FavoriteCount: restaurant.FavoritedUsers.length,
-        // check user is followed or not
-        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(restaurant.id)
-      }))
-      // sort by followerCount and splice top 10
-      restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount).splice(0, 10)
-      return res.render('topRestaurants', { restaurants })
+    restService.getTop10Restaurants(req, res, (data) => {
+      return res.render('topRestaurants', data)
     })
-  },
+  }
 }
 module.exports = restController

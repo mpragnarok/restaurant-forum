@@ -2,7 +2,8 @@ const express = require('express'),
   router = express.Router()
 const adminController = require('../controllers/api/adminController.js'),
   categoryController = require('../controllers/api/categoryController.js'),
-  userController = require('../controllers/api/userController')
+  userController = require('../controllers/api/userController'),
+  restController = require('../controllers/api/restController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const passport = require('../config/passport')
@@ -17,11 +18,13 @@ const authenticatedAdmin = (req, res, next) => {
   }
 }
 
-
+// show top restaurants
+router.get('/restaurants/top', authenticated, authenticatedAdmin, restController.getTop10Restaurants)
+// restaurants
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', adminController.getRestaurant)
 
-
+// admin
 router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
