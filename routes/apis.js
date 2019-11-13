@@ -25,6 +25,9 @@ router.get('/restaurants', authenticated, authenticatedAdmin, restController.get
 router.get('/restaurants/feeds', authenticated, authenticatedAdmin, restController.getFeeds)
 router.get('/restaurants/:id', authenticated, authenticatedAdmin, restController.getRestaurant)
 
+// show dashboard
+router.get('/restaurants/:id/dashboard', authenticated, authenticatedAdmin, restController.getDashboard)
+
 // admin
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
@@ -42,5 +45,7 @@ router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, catego
 // user
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
+
+
 
 module.exports = router

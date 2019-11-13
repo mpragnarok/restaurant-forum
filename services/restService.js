@@ -111,6 +111,21 @@ const restService = {
         callback({ restaurants, comments })
       })
     })
+  },
+  getDashboard: (req, res, callback) => {
+    return Comment.findAndCountAll({
+      where: {
+        'RestaurantId': req.params.id
+      }
+    }).then(comments => {
+      Restaurant.findByPk(req.params.id, { include: [Category] })
+        .then(restaurant => {
+          callback({
+            restaurant,
+            commentCount: comments.count
+          })
+        })
+    })
   }
 }
 module.exports = restService

@@ -20,6 +20,9 @@ const restController = {
   },
   getFeeds: (req, res) => {
     restService.getFeeds(req, res, (data) => res.json(data))
+  },
+  getDashboard: (req, res) => {
+    restService.getDashboard(req, res, (data) => res.json(data))
   }
 }
 module.exports = restController

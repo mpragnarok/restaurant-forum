@@ -21,20 +21,7 @@ const restController = {
     })
   },
   getDashboard: (req, res) => {
-    return Comment.findAndCountAll({
-      where: {
-        'RestaurantId': req.params.id
-      }
-    }).then(comments => {
-
-      Restaurant.findByPk(req.params.id, { include: [Category] })
-        .then(restaurant => {
-          return res.render('dashboard', {
-            restaurant,
-            commentCount: comments.count
-          })
-        })
-    })
+    restService.getDashboard(req, res, (data) => res.render('dashboard', data))
   },
   addLike: (req, res) => {
     return Like.create({
