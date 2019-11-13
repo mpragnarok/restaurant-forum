@@ -53,9 +53,9 @@ const userController = {
   },
   addFavorite: (req, res) => {
     return Favorite.create({
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      })
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    })
       .then((restaurant) => {
         return res.redirect('back')
       })
@@ -63,11 +63,11 @@ const userController = {
 
   removeFavorite: (req, res) => {
     return Favorite.findOne({
-        where: {
-          UserId: req.user.id,
-          RestaurantId: req.params.restaurantId
-        }
-      })
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
       .then((favorite) => {
         favorite.destroy()
           .then((restaurant) => {
@@ -77,12 +77,12 @@ const userController = {
   },
   getUser: (req, res) => {
     return User.findByPk(req.params.id, {
-        include: [
-          Comment,
-          { model: User, as: 'Followers' },
-          { model: User, as: 'Followings' }
-        ]
-      })
+      include: [
+        Comment,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    })
       .then(user => {
         // Remove duplicated restaurantId from  commentRestaurantId array
         const commentRestaurantId = [...new Set(user.dataValues.Comments.map(item => item.RestaurantId))]
@@ -124,45 +124,50 @@ const userController = {
 
   },
   putUser: (req, res) => {
-
-    if (!req.body.name) {
-      req.flash('error_messages', "Name didn't exist")
-      return res.redirect('back')
-    }
-    if (!req.body.name) {
-      req.flash('error_messages', "Email didn't exist")
-      return res.redirect('back')
-    }
-    const { file } = req
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(file.path, (err, img) => {
-        return User.findByPk(req.params.id).then(user => {
-          user.update({
+    if (req.params.id === req.user.id) {
+      if (!req.body.name) {
+        req.flash('error_messages', "Name didn't exist")
+        return res.redirect('back')
+      }
+      if (!req.body.email) {
+        req.flash('error_messages', "Email didn't exist")
+        return res.redirect('back')
+      }
+      const { file } = req
+      if (file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(file.path, (err, img) => {
+          return User.findByPk(req.params.id).then(user => {
+            user.update({
               name: req.body.name,
               email: req.body.email,
               image: file ? img.data.link : user.image
             })
+              .then(user => {
+                req.flash('success_messages', 'User was successfully to update')
+                res.redirect(`/users/${req.params.id}`)
+              })
+          })
+        })
+
+      } else {
+        return User.findByPk(req.params.id).then(user => {
+          user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: user.image
+          })
             .then(user => {
               req.flash('success_messages', 'User was successfully to update')
               res.redirect(`/users/${req.params.id}`)
             })
         })
-      })
-
+      }
     } else {
-      return User.findByPk(req.params.id).then(user => {
-        user.update({
-            name: req.body.name,
-            email: req.body.email,
-            image: user.image
-          })
-          .then(user => {
-            req.flash('success_messages', 'User was successfully to update')
-            res.redirect(`/users/${req.params.id}`)
-          })
-      })
+      return res.redirect('back')
     }
+
+
   },
   getTopUser: (req, res) => {
     // get all user and follower's data
@@ -189,20 +194,20 @@ const userController = {
   },
   addFollowing: (req, res) => {
     return Followship.create({
-        followerId: req.user.id,
-        followingId: req.params.userId
-      })
+      followerId: req.user.id,
+      followingId: req.params.userId
+    })
       .then(followship => {
         return res.redirect('back')
       })
   },
   removeFollowing: (req, res) => {
     return Followship.findOne({
-        where: {
-          followerId: req.user.id,
-          followingId: req.params.userId
-        }
-      })
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    })
       .then(followship => {
         followship.destroy()
           .then(followship => {
