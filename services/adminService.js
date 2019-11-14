@@ -1,9 +1,12 @@
-const db = require('../models')
+const db = require('../models'),
+  User = db.User,
+  Restaurant = db.Restaurant,
+  Category = db.Category,
+  Comment = db.Comment
+
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
-const Restaurant = db.Restaurant
-const Category = db.Category
-const Comment = db.Comment
+
 
 
 const adminService = {
@@ -106,7 +109,13 @@ const adminService = {
           })
       })
     }
+  }, // users controllers
+  getUsers: (req, res, callback) => {
+    return User.findAll().then(users => {
+      callback({ users })
+    })
   },
+
   getCategories: (req, res, callback) => {
 
     return Category.findAll()
