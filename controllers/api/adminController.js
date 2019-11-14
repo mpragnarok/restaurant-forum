@@ -34,6 +34,11 @@ const adminController = {
     adminService.getUsers(req, res, (data) => {
       return res.json(data)
     })
+  },
+  putUser: (req, res) => {
+    adminService.putUser(req, res, (data) => {
+      return res.json(data)
+    })
   }
 
 }

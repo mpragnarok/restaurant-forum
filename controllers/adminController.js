@@ -68,14 +68,11 @@ const adminController = {
     })
   },
   putUser: (req, res) => {
-    return User.findByPk(req.params.id).then(user => {
-      user.update({
-        isAdmin: !user.isAdmin
-      })
-        .then(user => {
-          req.flash('success_messages', 'User was successfully to update')
-          res.redirect('/admin/users')
-        })
+    adminService.putUser(req, res, (data) => {
+      if (data['status'] === 'success') {
+        req.flash('success_messages', data['message'])
+        res.redirect('/admin/users')
+      }
     })
   }
 }

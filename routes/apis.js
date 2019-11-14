@@ -38,7 +38,7 @@ router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.sing
 
 // admin read and update users permission
 router.get('/admin/users', authenticated, authenticatedAdmin, adminController.getUsers)
-// router.put('/admin/users/:id', authenticatedAdmin, adminController.putUser)
+router.put('/admin/users/:id', authenticated, authenticatedAdmin, adminController.putUser)
 
 // categories
 router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)

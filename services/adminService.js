@@ -116,6 +116,18 @@ const adminService = {
     })
   },
 
+  putUser: (req, res, callback) => {
+
+    return User.findByPk(req.params.id).then(user => {
+      user.update({
+        isAdmin: !user.isAdmin
+      })
+        .then(user => {
+          callback({ status: 'success', message: 'User was successfully to update' })
+        })
+    })
+
+  },
   getCategories: (req, res, callback) => {
 
     return Category.findAll()
