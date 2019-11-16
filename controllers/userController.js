@@ -9,6 +9,7 @@ const User = db.User,
   Restaurant = db.Restaurant,
   Followship = db.Followship
 const Op = Sequelize.Op
+const userService = require('../services/userService.js')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -166,31 +167,11 @@ const userController = {
     } else {
       return res.redirect('back')
     }
-
-
   },
+
   getTopUser: (req, res) => {
-    // get all user and follower's data
-    return User.findAll({
-      include: [
-        { model: User, as: 'Followers' }
-      ]
-    }).then(users => {
-      // map users data
-      users = users.map(user => ({
-        ...user.dataValues,
-        // count follower numbers
-        FollowerCount: user.Followers.length,
-        // check user is followed or not
-        isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
-      }))
-      // sort by followerCount
-      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
-      return res.render('topUser', {
-        users,
-        operateUserId: req.user.id
-      })
-    })
+    userService.getTopUser(req, res, (data) => res.render('topUser', data)
+    )
   },
   addFollowing: (req, res) => {
     return Followship.create({
