@@ -1,14 +1,10 @@
-const db = require('../models/')
-const Category = db.Category
-const adminService = require('../services/adminService')
+const categoryService = require('../services/categoryService')
 let categoryController = {
   getCategories: (req, res) => {
-    adminService.getCategories(req, res, (data) => {
-      return res.render('admin/categories', data)
-    })
+    categoryService.getCategories(req, res, (data) => res.render('admin/categories', data))
   },
   postCategory: (req, res) => {
-    adminService.postCategory(req, res, (data) => {
+    categoryService.postCategory(req, res, (data) => {
       if (data['status'] === 'error') {
         req.flash('error_messages', data['message'])
       } else {
@@ -18,7 +14,7 @@ let categoryController = {
     })
   },
   putCategory: (req, res) => {
-    adminService.putCategory(req, res, (data) => {
+    categoryService.putCategory(req, res, (data) => {
       if (data['status'] === 'error') {
         req.flash('error_messages', data['message'])
       } else {
@@ -28,9 +24,7 @@ let categoryController = {
     })
   },
   deleteCategory: (req, res) => {
-    adminService.deleteCategory(req, res, (data) => {
-      res.redirect('/admin/categories')
-    })
+    categoryService.deleteCategory(req, res, (data) => res.redirect('/admin/categories'))
   }
 }
 
