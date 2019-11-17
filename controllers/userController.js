@@ -77,40 +77,7 @@ const userController = {
       })
   },
   getUser: (req, res) => {
-    return User.findByPk(req.params.id, {
-      include: [
-        Comment,
-        { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' }
-      ]
-    })
-      .then(user => {
-        // Remove duplicated restaurantId from  commentRestaurantId array
-        const commentRestaurantId = [...new Set(user.dataValues.Comments.map(item => item.RestaurantId))]
-        Restaurant.findAll({
-          where: {
-            id: {
-              [Op.in]: commentRestaurantId
-            }
-          }
-
-        }).then(commentedRestaurants => {
-
-          return res.render('profile', {
-            user,
-            commentedRestaurants,
-            restaurantAmount: commentRestaurantId.length,
-            favoritedRestaurants: req.user.FavoritedRestaurants,
-            favoritedAmount: req.user.FavoritedRestaurants.map(item => item.RestaurantId).length,
-            followingAmount: req.user.Followings.map(i => i.FollowingId).length,
-            followerAmount: req.user.Followers.map(i => i.FollwerId).length,
-            isFollowed: req.user.Followings.map(d => d.id).includes(user.id),
-            operateUserId: req.user.id
-          })
-
-        })
-
-      })
+    userService.getUser(req, res, (data) => res.render('profile', data))
   },
   editUser: (req, res) => {
     if (req.params.id === req.user.id) {

@@ -1,6 +1,12 @@
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../models'),
-  User = db.User
+  User = db.User,
+  Comment = db.Comment,
+  Favorite = db.Favorite,
+  Restaurant = db.Restaurant,
+  Followship = db.Followship
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 // JWT
 const jwt = require('jsonwebtoken')
@@ -32,7 +38,41 @@ let userController = {
       })
     })
   },
+  getUser: (req, res, callback) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Comment,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Restaurant, as: 'FavoritedRestaurants' }
+      ]
+    })
+      .then(user => {
+        // Remove duplicated restaurantId from  commentRestaurantIds array
+        const commentRestaurantIds = [...new Set(user.dataValues.Comments.map(item => item.RestaurantId))]
+        Restaurant.findAll({
+          where: {
+            id: {
+              [Op.in]: commentRestaurantIds
+            }
+          }
 
+        }).then(commentedRestaurants => {
+          callback({
+            user,
+            commentedRestaurants,
+            restaurantAmount: commentRestaurantIds.length,
+            favoritedRestaurants: user.FavoritedRestaurants,
+            favoritedAmount: user.FavoritedRestaurants.map(item => item.RestaurantId).length,
+            followingAmount: user.Followings.length,
+            followerAmount: user.Followers.length,
+            isFollowed: req.user.Followings.map(d => d.id).includes(user.id),
+            operateUserId: req.user.id
+          })
+        })
+
+      })
+  },
 }
 
 module.exports = userController
