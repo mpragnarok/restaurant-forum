@@ -142,6 +142,26 @@ let userController = {
       .then(followship => followship.destroy())
       .then(() => callback({ status: 'success', message: '' }))
       .catch(e => callback({ status: 'error', message: '' }))
+  },
+  addFavorite: (req, res, callback) => {
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    })
+      .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
+  },
+
+  removeFavorite: (req, res, callback) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
+      .then((favorite) => favorite.destroy())
+      .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
   }
 }
 

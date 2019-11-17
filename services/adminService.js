@@ -27,7 +27,7 @@ const adminService = {
         restaurant.destroy()
         Comment.destroy({ where: { RestaurantId: req.params.id } })
         callback({ status: 'success', message: '' })
-      })
+      }).catch(e => callback({ status: 'error', message: '' }))
 
   },
   postRestaurant: (req, res, callback) => {
@@ -154,6 +154,7 @@ const adminService = {
     return Category.findByPk(req.params.id)
       .then(category => category.destroy())
       .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
   }
 }
 module.exports = adminService

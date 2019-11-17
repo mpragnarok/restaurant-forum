@@ -142,6 +142,7 @@ const restService = {
     })
       .then((like) => like.destroy())
       .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
   }
 }
 module.exports = restService

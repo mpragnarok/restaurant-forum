@@ -67,8 +67,8 @@ router.post('/like/:restaurantId', authenticated, authenticatedAdmin, restContro
 router.delete('/like/:restaurantId', authenticated, authenticatedAdmin, restController.removeLike)
 
 // Like POST and Delete
-// router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
-// router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+router.post('/favorite/:restaurantId', authenticated, authenticatedAdmin, userController.addFavorite)
+router.delete('/favorite/:restaurantId', authenticated, authenticatedAdmin, userController.removeFavorite)
 
 // Follow POST and DELETE
 router.post('/following/:userId', authenticated, authenticatedAdmin, userController.addFollowing)

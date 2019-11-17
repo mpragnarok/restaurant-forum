@@ -76,6 +76,12 @@ let userController = {
   },
   removeFollowing: (req, res) => {
     userService.removeFollowing(req, res, (data) => res.json(data))
+  },
+  addFavorite: (req, res) => {
+    userService.addFavorite(req, res, (data) => res.json(data))
+  },
+  removeFavorite: (req, res) => {
+    userService.removeFavorite(req, res, (data) => res.json(data))
   }
 }
 

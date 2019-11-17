@@ -15,6 +15,7 @@ let commentService = {
         callback({ status: 'success', message: '', comment })
         comment.destroy()
       })
+      .catch(e => callback({ status: 'error', message: '' }))
   }
 }
 

@@ -53,28 +53,10 @@ const userController = {
     res.redirect('/signin')
   },
   addFavorite: (req, res) => {
-    return Favorite.create({
-      UserId: req.user.id,
-      RestaurantId: req.params.restaurantId
-    })
-      .then((restaurant) => {
-        return res.redirect('back')
-      })
+    userService.addFavorite(req, res, (data) => res.redirect('back'))
   },
-
   removeFavorite: (req, res) => {
-    return Favorite.findOne({
-      where: {
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      }
-    })
-      .then((favorite) => {
-        favorite.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
-      })
+    userService.removeFavorite(req, res, (data) => res.redirect('back'))
   },
   getUser: (req, res) => {
     userService.getUser(req, res, (data) => res.render('profile', data))
