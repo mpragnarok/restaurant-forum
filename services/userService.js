@@ -73,6 +73,57 @@ let userController = {
 
       })
   },
+  putUser: (req, res, callback) => {
+    if (req.params.id === req.user.id || req.user.isAdmin) {
+      if (!req.body.name) {
+        callback({
+          status: 'error', message: "Name didn't exist"
+        })
+      }
+      if (!req.body.email) {
+        callback({
+          status: 'error', message: "Email didn't exist"
+        })
+      }
+      const { file } = req
+      if (file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(file.path, (err, img) => {
+          return User.findByPk(req.params.id).then(user => {
+            user.update({
+              name: req.body.name,
+              email: req.body.email,
+              image: file ? img.data.link : user.image
+            })
+              .then(user => {
+                callback({
+                  status: 'success', message: "User was successfully to update"
+                  , id: req.params.id
+                })
+              })
+          })
+        })
+
+      } else {
+        return User.findByPk(req.params.id).then(user => {
+          user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: user.image
+          })
+            .then(user => {
+              callback({
+                status: 'success', message: "User was successfully to update", id: req.params.id
+              })
+            })
+        })
+      }
+    } else {
+      callback({
+        status: 'error', message: "permission denied"
+      })
+    }
+  },
 }
 
 module.exports = userController

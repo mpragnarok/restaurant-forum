@@ -68,6 +68,9 @@ let userController = {
   getUser: (req, res) => {
     userService.getUser(req, res, (data) => res.json(data))
   },
+  putUser: (req, res) => {
+    userService.putUser(req, res, (data) => res.json(data))
+  },
 }
 
 module.exports = userController

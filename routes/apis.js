@@ -58,9 +58,8 @@ router.delete('/comments/:id', authenticated, authenticatedAdmin, commentControl
 // show top user
 router.get('/users/top', authenticated, authenticatedAdmin, userController.getTopUser)
 // user profile CRU
-router.get('/users/:id', authenticated, userController.getUser)
-// router.get('/users/:id/edit', authenticated, userController.editUser)
-// router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+router.get('/users/:id', authenticated, authenticatedAdmin, userController.getUser)
+router.put('/users/:id', authenticated, authenticatedAdmin, upload.single('image'), userController.putUser)
 
 
 // favorite POST and Delete
