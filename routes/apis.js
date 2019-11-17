@@ -66,4 +66,13 @@ router.put('/users/:id', authenticated, authenticatedAdmin, upload.single('image
 router.post('/like/:restaurantId', authenticated, authenticatedAdmin, restController.addLike)
 router.delete('/like/:restaurantId', authenticated, authenticatedAdmin, restController.removeLike)
 
+// Like POST and Delete
+// router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+// router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+
+// Follow POST and DELETE
+router.post('/following/:userId', authenticated, authenticatedAdmin, userController.addFollowing)
+router.delete('/following/:userId', authenticated, authenticatedAdmin, userController.removeFollowing)
+
+
 module.exports = router

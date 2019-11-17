@@ -59,7 +59,7 @@ let userController = {
 
         }).then(commentedRestaurants => {
           callback({
-            user,
+            userData: user,
             commentedRestaurants,
             restaurantAmount: commentRestaurantIds.length,
             favoritedRestaurants: user.FavoritedRestaurants,
@@ -124,6 +124,25 @@ let userController = {
       })
     }
   },
+  addFollowing: (req, res, callback) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    })
+      .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
+  },
+  removeFollowing: (req, res, callback) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    })
+      .then(followship => followship.destroy())
+      .then(() => callback({ status: 'success', message: '' }))
+      .catch(e => callback({ status: 'error', message: '' }))
+  }
 }
 
 module.exports = userController

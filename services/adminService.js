@@ -48,9 +48,7 @@ const adminService = {
           image: file ? img.data.link : null,
           CategoryId: categoryId
         })
-          .then(restaurant => {
-            callback({ status: 'success', message: 'Restaurant was successfully created' })
-          })
+          .then(() => callback({ status: 'success', message: 'Restaurant was successfully created' }))
       })
 
     } else {
@@ -63,9 +61,7 @@ const adminService = {
         image: null,
         CategoryId: categoryId
       })
-        .then(restaurant => {
-          callback({ status: 'success', message: 'Restaurant was successfully created' })
-        })
+        .then(() => callback({ status: 'success', message: 'Restaurant was successfully created' }))
     }
   },
   putRestaurant: (req, res, callback) => {
@@ -87,9 +83,7 @@ const adminService = {
             image: file ? img.data.link : restaurant.image,
             CategoryId: categoryId
           })
-            .then(restaurant => {
-              callback({ status: 'success', message: 'Restaurant was successfully to update' })
-            })
+            .then(() => callback({ status: 'success', message: 'Restaurant was successfully to update' }))
         })
       })
 
@@ -104,9 +98,7 @@ const adminService = {
           image: restaurant.image,
           CategoryId: categoryId
         })
-          .then(restaurant => {
-            callback({ status: 'success', message: 'Restaurant was successfully to update' })
-          })
+          .then(() => callback({ status: 'success', message: 'Restaurant was successfully to update' }))
       })
     }
   }, // users controllers
@@ -122,9 +114,7 @@ const adminService = {
       user.update({
         isAdmin: !user.isAdmin
       })
-        .then(user => {
-          callback({ status: 'success', message: 'User was successfully to update' })
-        })
+        .then(() => callback({ status: 'success', message: 'User was successfully to update' }))
     })
 
   },
@@ -148,9 +138,7 @@ const adminService = {
       return Category.create({
         name: req.body.name
       })
-        .then(category => {
-          callback({ status: 'success', message: 'Add category successfully' })
-        })
+        .then(() => callback({ status: 'success', message: 'Add category successfully' }))
     }
   },
   putCategory: (req, res, callback) => {
@@ -158,23 +146,14 @@ const adminService = {
       callback({ status: 'error', message: 'Name didn\'t exist' })
     } else {
       return Category.findByPk(req.params.id)
-        .then(category => {
-          category.update(req.body)
-            .then(category => {
-              callback({ status: 'success', message: 'Update category successfully' })
-
-            })
-        })
+        .then(category => category.update(req.body))
+        .then(() => callback({ status: 'success', message: 'Update category successfully' }))
     }
   },
   deleteCategory: (req, res, callback) => {
     return Category.findByPk(req.params.id)
-      .then(category => {
-        category.destroy()
-          .then(category => {
-            callback({ status: 'success', message: '' })
-          })
-      })
+      .then(category => category.destroy())
+      .then(() => callback({ status: 'success', message: '' }))
   }
 }
 module.exports = adminService

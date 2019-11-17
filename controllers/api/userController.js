@@ -71,6 +71,12 @@ let userController = {
   putUser: (req, res) => {
     userService.putUser(req, res, (data) => res.json(data))
   },
+  addFollowing: (req, res) => {
+    userService.addFollowing(req, res, (data) => res.json(data))
+  },
+  removeFollowing: (req, res) => {
+    userService.removeFollowing(req, res, (data) => res.json(data))
+  }
 }
 
 module.exports = userController
