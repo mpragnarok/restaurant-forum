@@ -9,6 +9,14 @@ This is a Restaurant Forum with Sequelize demo which built up from [Alphacamp](h
 2. CRUD restaurants.
 3. Refactor Backend code to create API server
 
+## API routes
+
+View all the routes in postman docs:
+
+[Restaurant forum API](https://documenter.getpostman.com/view/8424644/SW7dUQuu?version=latest#intro)
+
+
+
 ## Installing
 
 ### 1. Git bash
