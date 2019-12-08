@@ -6,7 +6,7 @@ require('../config/handlebars-helpers')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
-
+const cors = require('cors')
 const methodOverride = require('method-override')
 const port = process.env.PORT || 3000
 const hbs = exphbs.create({
@@ -18,6 +18,9 @@ if (process.env.NODE_ENV !== 'prodoction') {
 }
 
 const passport = require('../config/passport')
+
+// cors 的預設為全開放
+app.use(cors())
 
 // setup handlebars engine and file extension
 app.engine(hbs.extname, hbs.engine, exphbs())
